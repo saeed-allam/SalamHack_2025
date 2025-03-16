@@ -1,0 +1,107 @@
+<div class="rbt-left-panel popup-dashboardleft-section" [ngClass]="{'collapsed':!fixed.sidebar}">
+  <div class="rbt-default-sidebar">
+    <div class="inner">
+      <div class="content-item-content">
+        <div class="rbt-default-sidebar-wrapper">
+          <nav class="mainmenu-nav">
+            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
+              <li><a routerLink="/generator/channel/youtube"><img src="images/generator-icon/text.png"
+                alt="AI Generator"><span>Youtube</span></a></li>
+          <li><a routerLink="/generator/channel/amazone"><img src="images/generator-icon/photo.png"
+                alt="AI Generator"><span>Amazone</span>
+              <div class="rainbow-badge-card badge-sm ml--10">Hot</div>
+            </a></li>
+          <li><a routerLink="/generator/channel/facebook"><img src="images/generator-icon/code-editor.png"
+                alt="AI Generator"><span>Facebook</span></a></li>
+            </ul>
+          </nav>
+
+          <div class="rbt-sm-separator"></div>
+
+          <nav class="mainmenu-nav">
+            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
+              <li class="has-submenu"><a class="collapse-btn collapsed" data-bs-toggle="collapse"
+                  href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i
+                    class="fa-sharp fa-solid fa-circle-plus"></i><span>Setting</span></a>
+                <div class="collapse" id="collapseExample">
+                  <ul class="submenu rbt-default-sidebar-list">
+                    <li>
+                      <a href="profile-details.html">
+                        <i class="fa-sharp fa-regular fa-user"></i>
+                        <span>Profile Details</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="notification.html">
+                        <i class="fa-sharp fa-regular fa-shopping-bag"></i>
+                        <span>Notification</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="chat-export.html">
+                        <i class="fa-sharp fa-regular fa-users"></i>
+                        <span>Chat Export</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="appearance.html">
+                        <i class="fa-sharp fa-regular fa-home"></i>
+                        <span>Apperance</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="plans-billing.html">
+                        <i class="fa-sharp fa-regular fa-briefcase"></i>
+                        <span>Plans and Billing</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="sessions.html">
+                        <i class="fa-sharp fa-regular fa-users"></i>
+                        <span>Sessions</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="application.html">
+                        <i class="fa-sharp fa-regular fa-list"></i>
+                        <span>Application</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#"><i class="fa-sharp fa-regular fa-award"></i><span>Help & FAQ</span></a></li>
+            </ul>
+            <div class="rbt-sm-separator"></div>
+            <ul class="dashboard-mainmenu rbt-default-sidebar-list">
+              <li><a href="release-notes.html"><i class="fa-sharp fa-regular fa-bell"></i><span>Release
+                    notes</span></a></li>
+              <li><a href="terms-policy.html"><i class="fa-sharp fa-regular fa-briefcase"></i><span>Terms
+                    & Policy</span></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div id="my_switcher" class="my_switcher-3">
+      <ul>
+        <li>
+          <a (click)="global.activeMode('dark')" data-theme="light" class="setColor light" [ngClass]="{'active':fixed.activeMode == 'dark'}">
+            <img src="images/light/switch/sun-01.svg" alt="Switcher Image">
+            <span class="text" title="Dark Mode">
+              Dark</span>
+          </a>
+        </li>
+        <li>
+          <a (click)="global.activeMode('light')" data-theme="dark" class="setColor dark" [ngClass]="{'active':fixed.activeMode == 'light'}">
+            <img src="images/light/switch/vector.svg" alt="Switcher Image">
+            <span class="text" title="Light Mode">Light</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <p class="subscription-copyright copyright-text text-center b3  small-text">© 2024 <a
+      href="https://themeforest.net/user/rainbow-themes/portfolio">Rainbow Themes</a>.</p>
+</div>

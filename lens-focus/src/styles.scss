@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@use"../public/css/vendor/bootstrap.min.css";
+@use"../public/css/plugins/fontawesome-all.min.css";
+@use"../public/css/plugins/feature.css";
+@use"../public/css/plugins/animation.css";
+@use"../public/css/plugins/slick.css";
+@use"../public/css/plugins/slick-theme.css";
+@use"../public/css/plugins/bootstrap-select.min.css";
+@use"../public/css/plugins/prism.css";
+@use"../public/css/style.css";
+.bg-white{
+  background: #fff;
+}

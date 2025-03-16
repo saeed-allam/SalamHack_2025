@@ -1,0 +1,110 @@
+<main class="page-wrapper">
+  <div id="my_switcher" class="my_switcher">
+    <ul>
+        <li *ngIf="fixed.activeMode == 'light'">
+            <a (click)="global.activeMode('dark')"  data-theme="light" class="setColor light" >
+                <img src="images/light/switch/sun-01.svg" alt="Sun images"><span title="Light Mode">
+                    Light</span>
+            </a>
+        </li>
+        <li *ngIf="fixed.activeMode == 'dark'">
+            <a (click)="global.activeMode('light')"  data-theme="dark" class="setColor dark" >
+                <img src="images/light/switch/vector.svg" alt="Vector Images"><span title="Dark Mode">
+                    Dark</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+  <div class="signup-area">
+    <div class="wrapper">
+      <div class="row">
+        <div class="col-lg-6 bg-color-blackest left-wrapper">
+          <div class="sign-up-box">
+            <div class="signup-box-top">
+              <a routerLink="/dashboard">
+                <img class="logo-light" src="images/logo/logo.png" alt="sign-up logo" />
+                <img class="logo-dark" src="images/light/logo/logo-dark.png" alt="ChatBot Logo" />
+              </a>
+            </div>
+            <div class="signup-box-bottom">
+              <div class="signup-box-content">
+                <div class="social-btn-grp">
+                  <a class="btn-default btn-border" href="#">
+                    <span class="icon-left"><img src="images/sign-up/google.png" alt="Google Icon" /></span>Login
+                    with Google
+                  </a>
+                  <a class="btn-default btn-border" href="#">
+                    <span class="icon-left"><img src="images/sign-up/facebook.png"
+                        alt="Google Icon" /></span>Login with Facebook
+                  </a>
+                </div>
+                <div class="text-social-area">
+                  <hr />
+                  <span>Or continue with</span>
+                  <hr />
+                </div>
+                <router-outlet />
+              </div>
+              <div class="signup-box-footer">
+                <div class="bottom-text">
+                  {{activeRoute == '/login'? 'Don\'t':'Do you'}} have an account?
+                  <a class="btn-read-more ml--5" routerLink="{{activeRoute=='/account/login'?'register':'login'}}"><span>{{activeRoute == '/account/login'? 'Sign Up':'Sign In'}}</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 right-wrapper">
+          <div class="client-feedback-area">
+            <div class="single-feedback">
+              <div class="inner">
+                <div class="meta-img-section">
+                  <a class="image" href="#">
+                    <img src="images/team/team-02sm.jpg" alt="" />
+                  </a>
+                </div>
+                <div class="rating">
+                  <a href="#">
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                  </a>
+                  <a href="#">
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                  </a>
+                  <a href="#">
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                  </a>
+                  <a href="#">
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                  </a>
+                  <a href="#">
+                    <i class="fa-sharp fa-solid fa-star"></i>
+                  </a>
+                </div>
+                <div class="content">
+                  <p class="description">
+                    Rainbow-Themes is now a crucial component of our work! We
+                    made it simple to collaborate across departments by grouping
+                    our work
+                  </p>
+                  <div class="bottom-content">
+                    <div class="meta-info-section">
+                      <h4 class="title-text mb--0">Guy Hawkins</h4>
+                      <p class="desc mb--20">Nursing Assistant</p>
+                      <div class="desc-img">
+                        <img src="images/brand/brand-t.png" alt="Brand Image" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="close-button" routerLink="/dashboard">
+      <i class="fa-sharp fa-regular fa-x"></i>
+    </a>
+  </div>
+</main>
