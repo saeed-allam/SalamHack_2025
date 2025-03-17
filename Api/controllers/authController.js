@@ -206,7 +206,7 @@ export async function saveGoogleTokens(req, res) {
 
     console.log("User's Google refresh token saved:", updatedUser);
 
-    res.json({ message: "Google tokens saved successfully!" });
+    res.redirect("http://localhost:4200/generator/home");
   } catch (error) {
     console.error("Error saving Google tokens:", error);
     res.status(500).json({ error: "Internal server error" });
