@@ -5,3 +5,7 @@
 /.vs
 /lens-focus/.vscode
 /theme
+
+**.DS_Store
+**.env
+**/node_modules
