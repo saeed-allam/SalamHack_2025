@@ -8,6 +8,7 @@ import { SummarizePageComponent } from './summery/summarize-page/summarize-page.
 import { RouterModule } from '@angular/router';
 import { ChannelComponent } from './summery/channel/channel.component';
 import { GlobalService } from '../core/utils/global.service';
+import { GeneratorService } from './generator.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,6 @@ import { GlobalService } from '../core/utils/global.service';
       },
     ]),
   ],
-  providers:[GlobalService]
+  providers:[GlobalService,GeneratorService]
 })
 export class GeneratorModule {}
