@@ -2,7 +2,7 @@ import express from "express";
 import authRoute from "./routes/authRoutes.js";
 import contentRoute from "./routes/contentRoutes.js";
 import summeryRoute from "./routes/summeryRoutes.js";
-import chatRoute from "./routes/chatRoutes";
+import chatRoute from "./routes/chatRoutes.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";

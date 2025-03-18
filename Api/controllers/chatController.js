@@ -1,9 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import chatModel from "../models/chatModel";
+import chatModel from "../models/chatModel.js";
+
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import chatModel from "../models/chatModel";
 
 export async function getChatHistory(req, res) {
   const summaryId = req.params.summaryId;
