@@ -20,7 +20,7 @@ export async function isGoogleAuthenticated(req, res, next) {
 
     console.log("New access token generated:", credentials.access_token);
 
-    req.user = { accessToken: credentials.access_token };
+    req.user = { ...req.user, accessToken: credentials.access_token };
 
     next();
   } catch (refreshError) {

@@ -1,12 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import contentModel from "../models/contentModel.js";
 import summeryModel from "../models/summeryModel.js";
+import { google } from "googleapis"; // Import googleapis
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export default async function createSummery(req, res) {
-  const { contentId } = req.param;
+  const { contentId } = req.params; // Corrected from req.param to req.params
   const userId = req.user.id;
 
   const content = await contentModel.findById(contentId);
@@ -23,10 +24,13 @@ export default async function createSummery(req, res) {
   }
 
   try {
-    // use YT api to get the comments of this content using its id
-    const { summery } = await fetchComments(contentId, req.user.accessToken); // Pass the id to fetchComments
+    const commentsData = await fetchComments(contentId, req.user.accessToken); // Pass the id and token to fetchComments
 
-    if (!commentsData.comments || commentsData.comments.length === 0) {
+    if (
+      !commentsData ||
+      !commentsData.comments ||
+      commentsData.comments.length === 0
+    ) {
       return res
         .status(400)
         .json({ message: "No comments found for this content" });
@@ -50,13 +54,18 @@ export default async function createSummery(req, res) {
 
     res.json(responseText);
   } catch (error) {
-    console.log(error);
+    console.error(error); // Log the full error
     res.status(500).json({ message: "Failed to generate summary" });
   }
 }
 
-async function fetchComments(contentId, auth) {
+async function fetchComments(contentId, accessToken) {
   try {
+    const youtube = google.youtube({
+      version: "v3",
+      auth: accessToken,
+    });
+
     let nextPageToken = null;
     let allComments = [];
 
@@ -66,26 +75,27 @@ async function fetchComments(contentId, auth) {
         videoId: contentId,
         maxResults: 100,
         pageToken: nextPageToken,
-        auth,
       });
 
-      commentsRes.data.items.forEach((item) => {
-        allComments.push({
-          autherName: item.snippet.topLevelComment.snippet.authorDisplayName,
-          commentText: item.snippet.topLevelComment.snippet.textDisplay,
-          likeCount: item.snippet.topLevelComment.snippet.likeCount,
+      if (commentsRes.data.items) {
+        commentsRes.data.items.forEach((item) => {
+          allComments.push({
+            authorName: item.snippet.topLevelComment.snippet.authorDisplayName,
+            commentText: item.snippet.topLevelComment.snippet.textDisplay,
+            likeCount: item.snippet.topLevelComment.snippet.likeCount,
+          });
         });
-      });
+      }
 
       nextPageToken = commentsRes.data.nextPageToken;
-    } while (nextPageToken && allComments.length < 100); // stop when 100 comments are fetched or no more pages
+    } while (nextPageToken && allComments.length < 100);
 
     return {
       contentId: contentId,
       comments: allComments,
     };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch comments" });
+    console.error("Error fetching comments:", error);
+    return null;
   }
 }
