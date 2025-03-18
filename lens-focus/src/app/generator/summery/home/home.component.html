@@ -31,9 +31,14 @@
                                           <h6 class="title">youtube</h6>
                                       </div>
                                   </div>
+                                  {{fixed.youtubeCookies|json}}
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round" (click)="youtubeConnection()">
+                                      <button class="btn-default btn-border round" (click)="youtubeConnection()" *ngIf='fixed.youtubeCookies == null ||fixed.youtubeCookies == ""'>
                                           <i class="fa-sharp fa-solid fa-plus"></i> Connect
+                                      </button>
+
+                                      <button class="btn-default btn-border round" (click)="youtubeDesConnection()" *ngIf="fixed.youtubeCookies">
+                                          <i class="fa-solid fa-trash-can"></i> Remove
                                       </button>
                                   </div>
                               </div>

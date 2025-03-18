@@ -44,12 +44,9 @@ export class LoginComponent {
       return;
     }
     this.loading = true;
-    console.log(this.loginForm.value);
 
     this.accountService.obtainAccessToken(this.loginForm.value).subscribe({
       next: response => {
-        console.log(response);
-
         this.loading = false;
         if (response.menu == 0) return (this.showMassage = true);
        this.router.navigate(['/']);

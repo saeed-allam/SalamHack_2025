@@ -30,11 +30,11 @@
             <div class="signup-box-bottom">
               <div class="signup-box-content">
                 <div class="social-btn-grp">
-                  <a class="btn-default btn-border" href="#">
+                  <a class="btn-default btn-border"(click)="loginGoogle()">
                     <span class="icon-left"><img src="images/sign-up/google.png" alt="Google Icon" /></span>Login
                     with Google
                   </a>
-                  <a class="btn-default btn-border" href="#">
+                  <a class="btn-default btn-border" [ariaDisabled]="true">
                     <span class="icon-left"><img src="images/sign-up/facebook.png"
                         alt="Google Icon" /></span>Login with Facebook
                   </a>

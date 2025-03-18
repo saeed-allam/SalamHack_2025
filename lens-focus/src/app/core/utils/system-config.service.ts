@@ -19,7 +19,6 @@ export class SystemConfigService {
         next: (response: SystemConfigModel) => {
           if (response != null) {
             this.sysConfig = response;
-            console.log(response);
           }
           resolve(true);
         },

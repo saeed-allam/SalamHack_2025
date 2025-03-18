@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { CookieEnum } from '../../enums/cookie.enum';
 import { FixedService } from '../../utils/fixed.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-full-layout',
@@ -10,7 +11,8 @@ import { FixedService } from '../../utils/fixed.service';
   styleUrl: './full-layout.component.scss'
 })
 export class FullLayoutComponent {
-constructor(private storage: StorageMap,private fixed:FixedService){
+constructor(private storage: StorageMap,private fixed:FixedService,
+    private cookieSer: CookieService,){
 }
 ngOnInit() {
   this.storage.get(CookieEnum.LensFocusUserProfile).subscribe((res: any) => {
@@ -18,5 +20,6 @@ ngOnInit() {
           this.fixed.userProfile = res;
       }
   });
+ console.log(this.cookieSer.get(CookieEnum.youtubeToken));
 }
 }

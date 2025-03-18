@@ -4,17 +4,14 @@ import { SystemConfigModel } from '../model/system-config.model';
 
 @Injectable()
 export class FixedService {
-
   public userProfile = new UserProfile();
 
   public allowAnonymous = ['token', 'Token/Refresh', 'User/Logout'];
   public sysConfig = new SystemConfigModel();
   public tokenRequestSent = false;
+  public youtubeCookies: string = null;
+  public sidebar: Boolean = false;
+  public activeMode: 'dark' | 'light' = 'dark';
 
-  public sidebar:Boolean=false;
-  public activeMode :'dark'|'light' = 'dark';
-
-  constructor() {
-  }
-
+  constructor() {}
 }

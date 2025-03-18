@@ -174,7 +174,7 @@ export async function googleCallback(req, res) {
       "Refresh Token: ",
       tokens
     );
-    res.redirect(`http://localhost:4200/googleLogin`);
+    res.redirect(`http://localhost:4200/generator/home`);
   } catch (err) {
     console.error("Error logging in:", err);
     res.redirect(`http://localhost:4200/error`);

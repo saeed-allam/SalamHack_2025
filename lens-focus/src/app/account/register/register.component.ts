@@ -9,7 +9,7 @@ import { AccountService } from '../account.service';
   selector: 'app-register',
   standalone: false,
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   RegisterForm: FormGroup;
@@ -29,14 +29,17 @@ export class RegisterComponent {
   }
 
   ngOnInit() {
-    this.RegisterForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      pw: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPW: ['', [Validators.required, Validators.minLength(6)]],
-    },{
-      validator: [this.mustMatch('pw', 'confirmPW')],
-  },);
+    this.RegisterForm = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        pw: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPW: ['', [Validators.required, Validators.minLength(6)]],
+      },
+      {
+        validator: [this.mustMatch('pw', 'confirmPW')],
+      }
+    );
   }
 
   get f() {
@@ -50,15 +53,11 @@ export class RegisterComponent {
     }
     let payload = { ...this.RegisterForm.value }; // Clone the object
 
-  delete payload.confirmPW;
-
-    console.log(this.RegisterForm.value);
-    console.log(payload);
+    delete payload.confirmPW;
     this.accountService.registerUser(payload).subscribe({
-      next: response => {
-        console.log(response);
-       return this.accountService.saveToken(response);
-        // this.redirect();
+      next: (response) => {
+        this.router.navigate(['/generatooe/generator']);
+        return this.accountService.saveToken(response);
       },
       error: () => {
         // this.loading = false;
@@ -68,25 +67,22 @@ export class RegisterComponent {
 
   loginBefore() {
     if (this.accountService.isAuthenticated()) {
-      // this.redirect();
-      console.log('redirect');
-
+      this.router.navigate(['/']);
     }
   }
 
   mustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
-        const control = formGroup.controls[controlName];
-        const matchingControl = formGroup.controls[matchingControlName];
-        if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-            return;
-        }
-        if (control.value !== matchingControl.value) {
-            matchingControl.setErrors({ mustMatch: true });
-        } else {
-            matchingControl.setErrors(null);
-        }
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     };
+  }
 }
-}
-

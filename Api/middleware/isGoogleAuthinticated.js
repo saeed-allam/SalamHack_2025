@@ -7,7 +7,8 @@ export async function isGoogleAuthenticated(req, res, next) {
     process.env.REDIRECT_URI
   );
 
-  const refreshToken = req.cookies.refresh_token;
+  // const refreshToken = req.cookies?.refresh_token;
+  const refreshToken = req.headers?.cookie;
   if (!refreshToken) {
     return res.status(401).json({ error: "Google Refresh token missing" });
   }

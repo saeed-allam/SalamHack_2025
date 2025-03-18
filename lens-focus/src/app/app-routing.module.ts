@@ -4,11 +4,8 @@ import { SimpleLayoutComponent } from './core/theme/simple-layout/simple-layout.
 import { FullLayoutComponent } from './core/theme/full-layout/full-layout.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
+
+  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
   {
     path: 'account',
     component: SimpleLayoutComponent,
@@ -41,6 +38,8 @@ const routes: Routes = [
       },
     ],
   },
+  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
+  { path: "**", redirectTo: "/dashboard" },
 ];
 
 @NgModule({

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { GeneratorService } from '../../generator.service';
+import { CookieService } from 'ngx-cookie-service';
+import { FixedService } from '../../../core/utils/fixed.service';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +10,18 @@ import { GeneratorService } from '../../generator.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  constructor(private generatorSer: GeneratorService) {}
+  constructor(
+    public fixed: FixedService,
+    private generatorSer: GeneratorService,
+    public cookieSer: CookieService
+  ) {
+    this.fixed.youtubeCookies = this.cookieSer.get('refresh_token');
+  }
 
   youtubeConnection() {
-    this.generatorSer
-      .youtubeAuth()
-      .subscribe({ next: (req) => {
-        console.log(req);
-      }, error: (err) => {
-        console.log(err);
-
-      } });
+    this.generatorSer.youtubeAuth();
+  }
+  youtubeDesConnection() {
+    
   }
 }
