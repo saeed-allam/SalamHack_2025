@@ -48,8 +48,8 @@
                         <img src="images/team/team-01sm.jpg" alt="Admin">
                       </div>
                       <div class="content">
-                        <span class="title ">Adam Milner</span>
-                        <p>adam&#64;gmail.com</p>
+                        <span class="title ">{{fixed.userProfile.name}}</span>
+                        <p>{{fixed.userProfile.email}}</p>
                       </div>
                     </div>
                     <div class="icon">
@@ -64,7 +64,7 @@
                         <img src="images/team/team-01sm.jpg" alt="User Images">
                       </div>
                       <div class="admin-info">
-                        <span class="name">Adam Milner</span>
+                        <span class="name">{{fixed.userProfile.name}}</span>
                         <a class="rbt-btn-link color-primary" href="profile-details.html">View
                           Profile</a>
                       </div>
@@ -131,7 +131,7 @@
                     <hr class="mt--10 mb--10">
                     <ul class="user-list-wrapper">
                       <li>
-                        <a href="signin.html">
+                        <a (click)="accountSer.logout()">
                           <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
                           <span>Logout</span>
                         </a>

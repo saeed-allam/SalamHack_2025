@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ChannelComponent } from './summery/channel/channel.component';
 import { GlobalService } from '../core/utils/global.service';
 import { GeneratorService } from './generator.service';
+import { AccountService } from '../account/account.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,6 @@ import { GeneratorService } from './generator.service';
       },
     ]),
   ],
-  providers:[GlobalService,GeneratorService]
+  providers:[GlobalService,GeneratorService,AccountService]
 })
 export class GeneratorModule {}

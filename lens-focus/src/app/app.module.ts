@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { provideHttpClient } from '@angular/common/http';
+import { SystemConfigService } from './core/utils/system-config.service';
 
+export function loadConfigurations(configService: SystemConfigService) {
+  return () => configService.load();
+}
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -14,7 +17,16 @@ import { provideHttpClient } from '@angular/common/http';
     CoreModule.forRoot(),
   ],
   providers: [
-    provideHttpClient(),],
+    SystemConfigService,
+
+    // @ts-ignore
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadConfigurations,
+      deps: [SystemConfigService], // dependancy
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

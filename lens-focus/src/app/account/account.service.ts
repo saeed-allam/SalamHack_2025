@@ -11,51 +11,40 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AccountService {
-  constructor(public fixed: FixedService, private storage: StorageMap, private http: HttpClient, private cookieSer: CookieService, private router: Router) {}
+  constructor(public fixed: FixedService, private storage: StorageMap, private http: HttpClient, private cookieSer: CookieService, private router: Router) { }
 
   obtainAccessToken(loginData): Observable<any> {
-    return this.http.post('token', loginData);
+    return this.http.post('/api/auth/login', loginData);
   }
-
+  registerUser(userData): Observable<any> {
+    return this.http.post('/api/auth/register', userData);
+  }
+  googleLogin(){
+    return this.http.get('/api/auth/googleLogin');
+  }
+  
   saveToken(data) {
+    console.log(data)
     this.cookieSer.deleteAll();
-    this.cookieSer.set(CookieEnum.LensFocusToken, data.token, new Date(data.expiration), '/');
-    this.cookieSer.set(CookieEnum.LensFocusRefresh, data.refresh.token, new Date(data.refresh.expiresUtc), '/');
-    this.storage.set(CookieEnum.LensFocusUserProfile, data.profile).subscribe(() => {});
-  }
+    this.cookieSer.set(CookieEnum.LensFocusToken, data.user.token, null, '/');
+    this.storage.set(CookieEnum.LensFocusUserProfile, data.user).subscribe(() => { });
+    console.log(this.storage.get(CookieEnum.LensFocusUserProfile));
 
-  refreshToken(data) {
-    this.cookieSer.deleteAll();
-    this.cookieSer.set(CookieEnum.LensFocusToken, data.token, new Date(data.expiration), '/');
-    this.cookieSer.set(CookieEnum.LensFocusRefresh, data.refresh.token, new Date(data.refresh.expiresUtc), '/');
   }
 
   logout() {
     if (window.location.pathname.indexOf('login') < 0) {
       this.storage.clear().subscribe(() => {
-        this.http
-          .post('Token/Logout', {
-            refreshToken: this.cookieSer.get(CookieEnum.LensFocusRefresh),
-          })
-          .subscribe(() => {});
-        this.fixed = new FixedService();
         this.cookieSer.deleteAll('/');
-        window.location.href =
-          window.location.pathname.indexOf('login') > 0 && window.location.pathname.indexOf('returnUrl') > 0
-            ? this.router.url
-            : '/login?returnUrl=' + this.router.url;
+        this.router.navigate(['/account/login']);
       });
     }
   }
 
-  obtainRefreshToken() {
-    return this.http.post('Token/Refresh', {
-      refreshToken: this.cookieSer.get(CookieEnum.LensFocusRefresh),
-    });
-  }
+
 
   isAuthenticated() {
-    return !this.cookieSer.check(CookieEnum.LensFocusRefresh) && !this.cookieSer.check(CookieEnum.LensFocusToken) ? false : true;
+    return !this.cookieSer.check(CookieEnum.LensFocusToken) ? false : true;
   }
 
 }

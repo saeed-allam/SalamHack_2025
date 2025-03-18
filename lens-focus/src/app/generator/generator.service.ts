@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 export class GeneratorService {
 
   constructor(private http:HttpClient) { }
-  
+
   youtubeAuth(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/auth/googleLogin');
+    return this.http.get('api/auth/googleLogin');
   }
 }

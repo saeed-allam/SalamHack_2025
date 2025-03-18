@@ -1,19 +1,45 @@
-<form>
+<form [formGroup]="RegisterForm" (ngSubmit)="onRegistSubmit()">
   <div class="input-section">
-      <div class="icon"><i class="feather-user"></i></div>
-      <input type="text" placeholder="Enter Your Name">
+    <div class="icon"><i class="feather-user"></i></div>
+    <input type="text" placeholder="Enter Your Name" formControlName="name"[ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+    <ng-container *ngIf="submitted && f['name'].errors">
+      <div class="fv-plugins-message-container invalid-feedback" *ngIf="f['name'].errors['required']">
+        Name Is Required
+      </div>
+    </ng-container>
   </div>
   <div class="input-section mail-section">
-      <div class="icon"><i class="fa-sharp fa-regular fa-envelope"></i></div>
-      <input type="email" placeholder="Enter email address">
+    <div class="icon"><i class="fa-sharp fa-regular fa-envelope"></i></div>
+    <input formControlName="email" type="email" placeholder="Enter email address"
+    [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+    <ng-container *ngIf="submitted && f['email'].errors">
+      <div class="fv-plugins-message-container invalid-feedback" *ngIf="f['email'].errors['required']">
+        Email Is Required
+      </div>
+    </ng-container>
   </div>
   <div class="input-section password-section">
-      <div class="icon"><i class="fa-sharp fa-regular fa-lock"></i></div>
-      <input type="password" placeholder="Create Password">
+    <div class="icon"><i class="fa-sharp fa-regular fa-lock"></i></div>
+    <input type="password" placeholder="Create Password" formControlName="pw" name="pw"
+      [ngClass]="{'is-invalid': submitted && f['pw'].errors}">
+    <ng-container *ngIf="submitted && f['pw'].errors">
+      <div class="invalid-feedback d-block" *ngIf="f['pw'].errors['required']">
+       Password Is Required
+      </div>
+    </ng-container>
   </div>
   <div class="input-section password-section">
-      <div class="icon"><i class="fa-sharp fa-regular fa-lock"></i></div>
-      <input type="password" placeholder="Confirm Password">
+    <div class="icon"><i class="fa-sharp fa-regular fa-lock"></i></div>
+    <input type="password" placeholder="Confirm Password" formControlName="confirmPW" name="confirmPW"
+      [ngClass]="{'is-invalid': submitted && f['confirmPW'].errors}">
+    <ng-container *ngIf="submitted && f['confirmPW'].errors">
+      <div class="invalid-feedback d-block" *ngIf="f['confirmPW'].errors['required']">
+        Confirm Password Is Required
+      </div>
+      <div class="invalid-feedback d-block" *ngIf="f['confirmPW'].errors['mustMatch']">
+        Passwords Not Match
+      </div>
+    </ng-container>
   </div>
   <button type="submit" class="btn-default">Sign Up</button>
 </form>

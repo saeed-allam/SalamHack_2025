@@ -7,8 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FixedService } from './utils/fixed.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MobileMenuComponent } from './component/mobile-menu/mobile-menu.component';
-// import { ValidatorService } from './utils/validator.service';
-// import { AuthGuard } from './utils/auth.guard';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { MyHttpInterceptor } from './utils/my-http-interceptor.service';
 
 const fixed = new FixedService();
 
@@ -19,7 +19,7 @@ const fixed = new FixedService();
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslateModule
   ],
   exports: [
     RouterModule,
@@ -30,6 +30,7 @@ const fixed = new FixedService();
   ],
   providers: [
     { provide: FixedService, useValue: fixed },
+    provideHttpClient(withInterceptors([MyHttpInterceptor])),
   ],
 })
 export class CoreModule {
