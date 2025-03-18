@@ -1,5 +1,7 @@
 import { Router } from "express";
+import { getChatHistory, sendMessage } from "../controllers/chatController.js";
+import { authenticateToken } from "../middleware/authMiddleware.js";
 const router = Router();
-router.get("/:id", getChatHistory);
-router.post("/:id", sendMessage);
+router.get("/", authenticateToken, getChatHistory);
+router.post("/", authenticateToken, sendMessage);
 export default router;

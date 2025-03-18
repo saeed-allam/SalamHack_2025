@@ -1,5 +1,4 @@
 import contentModel from "../models/contentModel.js";
-import summeryModel from "../models/summeryModel.js";
 import userModel from "../models/userModel.js";
 import { google } from "googleapis";
 
@@ -17,7 +16,8 @@ export async function fetchContent(req, res) {
 
     // check if the info is in the db already
     const content = await contentModel.find({ userId });
-    if (content) {
+    if (content.length > 0) {
+      // check if content exists
       return res.status(200).json(content);
     }
 
@@ -56,7 +56,7 @@ export async function fetchContent(req, res) {
           title: item.snippet.title,
           description: item.snippet.description,
           image: item.snippet.thumbnails.medium.url,
-          url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
+          url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`, // fixed URL
           uploadedAt: item.snippet.publishedAt,
         });
       });
@@ -71,41 +71,6 @@ export async function fetchContent(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to fetch content" });
-  }
-}
-
-export async function fetchComments(req, res) {
-  const userId = req.user.id;
-  const { videoUrl } = req.body;
-
-  try {
-    const user = await userModel.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const videoId = new URL(videoUrl).searchParams.get("v");
-    if (!videoId) return res.status(400).json({ message: "Invalid video URL" });
-
-    const auth = req.user.accessToken;
-
-    const commentsRes = await youtube.commentThreads.list({
-      videoId,
-      part: "snippet",
-      maxResults: 100,
-      auth,
-    });
-
-    const comments = commentsRes.data.items.map((item) => ({
-      authorName: item.snippet.topLevelComment.snippet.authorDisplayName,
-      commentText: item.snippet.topLevelComment.snippet.textDisplay,
-      likeCount: item.snippet.topLevelComment.snippet.likeCount,
-    }));
-
-    await summeryModel.create({ userId, contentId: videoId, comments });
-
-    res.status(200).json(comments);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch comments" });
   }
 }
 

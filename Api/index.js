@@ -1,6 +1,8 @@
 import express from "express";
 import authRoute from "./routes/authRoutes.js";
 import contentRoute from "./routes/contentRoutes.js";
+import summeryRoute from "./routes/summeryRoutes.js";
+import chatRoute from "./routes/chatRoutes";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -26,6 +28,8 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cors(corsOptions));
 app.use("/api/auth", authRoute);
 app.use("/api/content", contentRoute);
+app.use("/api/summery", summeryRoute);
+app.use("/api/chat/:summeryId", chatRoute);
 
 app.listen(3000, () => {
   console.log(

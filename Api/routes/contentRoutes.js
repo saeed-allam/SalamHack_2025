@@ -1,10 +1,7 @@
 import { Router } from "express";
 import authenticateToken from "../middleware/isAuthenticated.js";
 import { isGoogleAuthenticated } from "../middleware/isGoogleAuthinticated.js";
-import {
-  fetchContent,
-  fetchComments,
-} from "../controllers/contentController.js";
+import { fetchContent } from "../controllers/contentController.js";
 
 const router = Router();
 
@@ -13,12 +10,6 @@ router.get(
   authenticateToken,
   isGoogleAuthenticated,
   fetchContent
-);
-router.post(
-  "/fetchComments",
-  authenticateToken,
-  isGoogleAuthenticated,
-  fetchComments
 );
 
 export default router;
