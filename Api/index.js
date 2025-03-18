@@ -2,6 +2,7 @@ import express from "express";
 import authRoute from "./routes/authRoutes.js";
 import contentRoute from "./routes/contentRoutes.js";
 import summeryRoute from "./routes/summeryRoutes.js";
+import cookieParser from "cookie-parser";
 import chatRoute from "./routes/chatRoutes.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -23,6 +24,7 @@ mongoose
   .then(() => console.log("db connected"))
   .catch((e) => console.log("Error: " + e));
 
+app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 // app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors(corsOptions));
