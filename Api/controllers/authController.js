@@ -180,7 +180,6 @@ export async function googleCallback(req, res) {
     //   access_token: access_token,
     // });
     res.redirect(`http://localhost:4200/generator/home/${access_token}`);
-
   } catch (err) {
     console.error("Error logging in:", err);
     res.status(500).json({ error: "Error logging in using google" });

@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 const schema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
-  summaryId: mongoose.Schema.Types.ObjectId,
+  summaryId: String,
   messages: [
     {
       role: String,
-      content: String,
+      parts: [{ text: String }],
       timestamp: { type: Date, default: Date.now },
     },
   ],

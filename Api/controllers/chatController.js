@@ -1,13 +1,15 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import chatModel from "../models/chatModel.js";
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+import summeryModel from "../models/summeryModel.js";
 
 export async function getChatHistory(req, res) {
-  const summaryId = req.params.summaryId;
+  const { contentId } = req.params;
+  const userId = req.user.id;
   try {
-    const chat = await chatModel.findById(summaryId);
+    const chat = await chatModel.findOne({
+      summaryId: contentId,
+      userId: userId,
+    });
+
     if (!chat) {
       return res.status(404).json({ message: "Chat history not found" });
     }
@@ -19,44 +21,98 @@ export async function getChatHistory(req, res) {
 }
 
 export async function sendMessage(req, res) {
-  const userID = req.user.id;
-  const summaryId = req.params.summaryId;
+  const { contentId } = req.params;
+  const userId = req.user.id;
   const msg = req.body.chat;
-  let promptString = "";
+
+  if (!msg || typeof msg !== "string" || msg.trim().length === 0) {
+    return res.status(400).json({ message: "Invalid message" });
+  }
 
   try {
-    let chatDoc = await chatModel.findById(summaryId);
-
-    if (!chatDoc) {
-      chatDoc = new chatModel({
-        userId: userID,
-        summaryId: summaryId,
-        messages: [],
-      });
-    }
-
-    // Add user message to history and save
-    chatDoc.messages.push({ role: "user", content: msg });
-    await chatDoc.save();
-
-    const chat = model.startChat({
-      history: chatDoc.messages,
+    // Find or create chat history
+    let chatHistory = await chatModel.findOne({
+      summaryId: contentId,
+      userId: userId,
     });
 
-    const result = await chat.sendMessageStream(msg);
-
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.text();
-      promptString += chunkText + " ";
-      res.write(chunkText);
+    if (!chatHistory) {
+      chatHistory = new chatModel({
+        userId: userId,
+        summaryId: contentId,
+        messages: [],
+      });
+      console.log("No history found. Created new one");
     }
 
-    chatDoc.messages.push({ role: "ai", content: promptString });
-    await chatDoc.save();
+    // Fetch the summary
+    const summary = await summeryModel.findOne({
+      userId: userId,
+      contentId: contentId,
+    });
 
-    res.end();
+    if (!summary) {
+      return res.status(404).json({ message: "Summary not found" });
+    }
+
+    const cleanSummary = {
+      summeryText: summary.summeryText,
+      comments: summary.comments,
+    };
+
+    // Add user message to chat history
+    chatHistory.messages.push({ role: "user", parts: [{ text: msg }] });
+
+    // Construct the prompt with previous chat history
+    const promptText = `${msg} \n\nBased on this summary: ${
+      cleanSummary.summeryText
+    }\nComments: ${
+      cleanSummary.comments
+    }\nPrevious conversation: ${chatHistory.messages
+      .map((m) => `${m.role}: ${m.parts[0].text}`)
+      .join("\n")}`;
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini}`;
+
+    const data = {
+      contents: [
+        {
+          parts: [{ text: promptText }],
+        },
+      ],
+    };
+
+    // Send to AI API
+    const aiResponse = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const jdata = await aiResponse.json();
+    const aiMessage = jdata?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!aiMessage) {
+      return res
+        .status(500)
+        .json({ message: "Failed to get a response from AI" });
+    }
+
+    // Save AI response to history
+    chatHistory.messages.push({
+      role: "model",
+      parts: [{ text: aiMessage }],
+    });
+
+    // Save the updated chat history
+    await chatHistory.save();
+
+    return res.status(200).json({
+      message: "Message sent successfully",
+      answer: aiMessage,
+    });
   } catch (error) {
     console.error("Error sending message:", error);
-    res.status(500).send("Error processing message");
+    return res.status(500).send("Error processing message");
   }
 }

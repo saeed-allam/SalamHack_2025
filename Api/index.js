@@ -31,7 +31,7 @@ app.use(cors(corsOptions));
 app.use("/api/auth", authRoute);
 app.use("/api/content", contentRoute);
 app.use("/api/summery", summeryRoute);
-app.use("/api/chat/:summeryId", chatRoute);
+app.use("/api/chat/", chatRoute);
 
 app.listen(3000, () => {
   console.log(
