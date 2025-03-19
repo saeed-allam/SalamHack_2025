@@ -1,76 +1,130 @@
-import contentModel from "../models/contentModel.js";
+import contentListModel from "../models/contentModel.js";
 import userModel from "../models/userModel.js";
-import { google } from "googleapis";
-
-const youtube = google.youtube({ version: "v3" });
 
 export async function fetchContent(req, res) {
   const userId = req.user.id;
 
   try {
-    // Fetch user from DB
     const user = await userModel.findById(userId);
     console.log("/FetchContent");
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // check if the info is in the db already
-    const content = await contentModel.find({ userId });
-    if (content.length > 0) {
-      // check if content exists
-      return res.status(200).json(content);
+    const content = await contentListModel.findOne({ userId }); // find one document
+    if (content) {
+      console.log("already exist in db");
+      return res.status(200).json(content.uploadsPlaylist); // return the array of videos.
     }
 
-    const auth = req.user.accessToken; // OAuth token from the request
+    const auth = req.user.accessToken;
+    const channelDetails = await getChannelDetails(auth);
+    if (!channelDetails) {
+      return res
+        .status(404)
+        .json({ message: "Channel not found or the user might not have one" });
+    }
 
-    // Get user's channel ID
-    const channelRes = await youtube.channels.list({
-      mine: true,
-      part: "contentDetails",
-      auth,
+    const uploadsPlaylist = await getUploadsVideos(auth, channelDetails.id);
+    if (!uploadsPlaylist) {
+      return res.status(404).json({ message: "Uploads playlist not found" });
+    }
+    await userModel.findByIdAndUpdate(userId, {
+      youtubeName: channelDetails.title,
+      channelId: channelDetails.customUrl,
+      customUrl: channelDetails.id,
     });
+    const fetchedVideos = await contentListModel.create({
+      userId,
+      uploadsPlaylist,
+    });
+    res.status(200).json(fetchedVideos.uploadsPlaylist); // send the array of videos.
+  } catch (error) {
+    console.error("Error in fetchContent:", error);
+    res.status(500).json({ message: "Failed to fetch content" });
+  }
+}
 
-    if (!channelRes.data.items.length) {
-      return res.status(400).json({ message: "No channel found" });
+async function getChannelDetails(auth) {
+  try {
+    console.log("checking channel details");
+    const getChannelDetailsRes = await fetch(
+      "https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${auth}`,
+        },
+      }
+    );
+    if (!getChannelDetailsRes.ok) {
+      throw new Error(`HTTP error! status: ${getChannelDetailsRes.status}`);
     }
 
-    const uploadsPlaylistId =
-      channelRes.data.items[0].contentDetails.relatedPlaylists.uploads;
+    const channelDetails = await getChannelDetailsRes.json();
 
-    let nextPageToken = null;
-    let videos = [];
+    if (!channelDetails.items || channelDetails.items.length === 0) {
+      return null; // Return null to indicate no channel found
+    }
 
-    do {
-      const playlistRes = await youtube.playlistItems.list({
-        playlistId: uploadsPlaylistId,
-        part: "snippet",
-        maxResults: 50,
-        pageToken: nextPageToken,
-        auth,
-      });
+    const {
+      items: [{ snippet, id }],
+    } = channelDetails;
 
-      playlistRes.data.items.forEach((item) => {
-        videos.push({
-          userId,
-          contentId: item.snippet.resourceId.videoId,
-          title: item.snippet.title,
-          description: item.snippet.description,
-          image: item.snippet.thumbnails.medium.url,
-          url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`, // fixed URL
-          uploadedAt: item.snippet.publishedAt,
-        });
-      });
+    const { title, customUrl } = snippet;
 
-      nextPageToken = playlistRes.data.nextPageToken;
-    } while (nextPageToken);
-
-    // Store videos in DB
-    await contentModel.insertMany(videos, { ordered: false }).catch(() => {});
-
-    res.status(200).json(videos);
+    console.log("Got this channel details: ", {
+      title,
+      customUrl,
+      channelId: id,
+    });
+    return { title, customUrl, id };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch content" });
+    console.error("Error in getChannelDetails:", error);
+    return null; // Return null on error
+  }
+}
+
+async function getUploadsVideos(auth, userId) {
+  try {
+    const playlistId = "UU" + userId.slice(2);
+    const getPlaylistDetailsRes = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&part=contentDetails&playlistId=${playlistId}&maxResults=50&key=${process.env.YT_API_KEY}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${auth}`,
+        },
+      }
+    );
+    if (!getPlaylistDetailsRes.ok) {
+      throw new Error(`HTTP error! status: ${getPlaylistDetailsRes.status}`);
+    }
+    const playlistDetails = await getPlaylistDetailsRes.json();
+
+    return sortUploadedVideos(playlistDetails);
+  } catch (error) {
+    console.error("Error in getUploadsVideos:", error);
+    return null;
+  }
+}
+
+function sortUploadedVideos(data) {
+  try {
+    const relevantData = data.items.map((item) => {
+      const snippet = item.snippet;
+      const contentDetails = item.contentDetails;
+      return {
+        publishedAt: snippet.publishedAt,
+        title: snippet.title,
+        description: snippet.description,
+        contentId: contentDetails.videoId,
+        image: snippet.thumbnails.high.url,
+      };
+    });
+    return relevantData;
+  } catch (error) {
+    console.error("Error in sortUploadedVideos:", error);
+    return [];
   }
 }
 

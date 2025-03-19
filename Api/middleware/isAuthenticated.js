@@ -11,7 +11,7 @@ export default function authenticateToken(req, res, next) {
 
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user; // Attach user info to the request
+    req.user = user;
     next();
   } catch (error) {
     res.status(403).json({ error: "Invalid token" });

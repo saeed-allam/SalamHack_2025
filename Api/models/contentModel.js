@@ -1,14 +1,21 @@
-// content is the list of data that will be scrabed
-// displayed after the user connect the app
 import mongoose from "mongoose";
-const schema = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
+
+const contentItemSchema = new mongoose.Schema({
   description: String,
   contentId: String,
   title: String,
   image: String,
-  url: { type: String, unique: true },
   uploadedAt: Date,
+  publishedAt: Date,
 });
-export default mongoose.models.contentModel ||
-  mongoose.model("contentModel", schema);
+
+const contentListSchema = new mongoose.Schema({
+  userId: mongoose.Schema.Types.ObjectId,
+  uploadsPlaylist: [contentItemSchema], // Array of content items
+});
+
+const contentListModel =
+  mongoose.models.contentListModel ||
+  mongoose.model("contentListModel", contentListSchema);
+
+export default contentListModel;

@@ -69,7 +69,6 @@ export async function register(req, res) {
     console.log("New user created:", user);
     res.status(201).json({
       message: "User registered successfully",
-      user: { email: user.email, name: user.name, token },
     });
   } catch (error) {
     res
@@ -114,10 +113,6 @@ export async function login(req, res) {
       }
     );
 
-    // Update the user's token in the database
-    user.jwt = token;
-    await user.save();
-
     console.log(`User loggedIn: ${user} \nlogged in successfully`);
     res.status(200).json({
       message: "Login successful",
@@ -138,10 +133,19 @@ export function googleLogin(req, res) {
   );
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: ["https://www.googleapis.com/auth/youtube.readonly"],
+    scope: [
+      "https://www.googleapis.com/auth/youtube.readonly",
+      "https://www.googleapis.com/auth/youtube.force-ssl",
+    ],
     prompt: "consent",
+    state: req.user.id,
   });
-  console.log("New google login request: ", authUrl, " From user: ", req.user);
+  console.log(
+    "New google login request: ",
+    authUrl,
+    " From user: ",
+    req.user.id
+  );
 
   res.status(200).json(authUrl);
 }
@@ -156,59 +160,26 @@ export async function googleCallback(req, res) {
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
+    const userId = req.query.state;
     oauth2Client.setCredentials(tokens);
 
     const { access_token, refresh_token } = tokens;
 
-    // Store refresh token securely as HTTP-only cookie
-    res.cookie("refresh_token", refresh_token, {
-      httpOnly: true,
-      sameSite: "Strict",
-    });
+    const user = await userModel.findById(userId);
+    if (user) {
+      user.refreshToken = refresh_token;
+      user.refreshTokenExpiry = tokens.expiry_date;
+      await user.save();
+    } else {
+      return res.status(400).json({ error: "User not found" });
+    }
 
-    console.log(
-      "New google callback request from user:",
-      req.user,
-      "Access token: ",
-      access_token,
-      "Refresh Token: ",
-      tokens
-    );
-    res.redirect(`http://localhost:4200/generator/home`);
+    res.status(200).json({
+      message: "Google login successful.",
+      access_token: access_token,
+    });
   } catch (err) {
     console.error("Error logging in:", err);
-    res.redirect(`http://localhost:4200/error`);
-  }
-}
-
-//after the callback front end sends the data to be saved
-export async function saveGoogleTokens(req, res) {
-  try {
-    const { email } = req.user.email;
-    const refreshToken = req.cookies.refresh_token;
-
-    if (!refreshToken) {
-      return res.status(401).json({ error: "No refresh token found" });
-    }
-
-    // Find the user in the database
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Save the refresh token to user in DB
-    const updatedUser = await userModel.findOneAndUpdate(
-      { email },
-      { googleRefreshToken: refreshToken },
-      { new: true }
-    );
-
-    console.log("User's Google refresh token saved:", updatedUser);
-
-    res.redirect("http://localhost:4200/generator/home");
-  } catch (error) {
-    console.error("Error saving Google tokens:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Error logging in using google" });
   }
 }
