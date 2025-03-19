@@ -23,7 +23,7 @@
             <div class="rainbow-card undefined">
               <div class="inner">
                 <div class="thumbnail">
-                  <a class="image" [routerLink]="'/generator/summarize/'+item._id"><img [src]="item.image"
+                  <a class="image" [routerLink]="'/generator/summarize/'+item.contentId"><img [src]="item.image"
                       alt="Blog Image">
                   </a>
                 </div>
@@ -31,13 +31,13 @@
                   <ul class="rainbow-meta-list">
                     <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i>{{item.description|date: 'dd MMM yyyy'}}</li>
                     <li class="separator"></li>
-                    <li class="catagory-meta"><a [routerLink]="'/generator/summarize/'+item._id">Technology</a></li>
+                    <li class="catagory-meta"><a [routerLink]="'/generator/summarize/'+item.contentId">Technology</a></li>
                   </ul>
-                  <h4 class="title"><a [routerLink]="'/generator/summarize/'+item._id">{{item.title}}
+                  <h4 class="title"><a [routerLink]="'/generator/summarize/'+item.contentId">{{item.title}}
                     </a>
                   </h4>
                   <p class="description"*ngIf="item.description">{{item.description}} </p>
-                  <a class="btn-read-more border-transparent" [routerLink]="'/generator/summarize/'+item._id"><span>summarize <i
+                  <a class="btn-read-more border-transparent" [routerLink]="'/generator/summarize/'+item.contentId"><span>summarize <i
                         class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
                 </div>
               </div>
