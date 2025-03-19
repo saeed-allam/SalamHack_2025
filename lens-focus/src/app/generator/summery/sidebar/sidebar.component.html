@@ -5,13 +5,13 @@
         <div class="rbt-default-sidebar-wrapper">
           <nav class="mainmenu-nav">
             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-              <li><a routerLink="/generator/channel/youtube"><img src="images/generator-icon/text.png"
+              <li><a [routerLink]="fixed.youtubeCookies !=null? '/generator/channel/youtube':null" [ngClass]="{'disapleSide':fixed.youtubeCookies ==null}"><img src="images/generator-icon/text.png"
                 alt="AI Generator"><span>Youtube</span></a></li>
-          <li><a routerLink="/generator/channel/amazone"><img src="images/generator-icon/photo.png"
+          <li><a [routerLink]="fixed.amazoneCookies !=null? '/generator/channel/amazone':null" [ngClass]="{'disapleSide':fixed.amazoneCookies ==null}"><img src="images/generator-icon/photo.png"
                 alt="AI Generator"><span>Amazone</span>
               <div class="rainbow-badge-card badge-sm ml--10">Hot</div>
             </a></li>
-          <li><a routerLink="/generator/channel/facebook"><img src="images/generator-icon/code-editor.png"
+          <li><a [routerLink]="fixed.facebookCookies !=null? '/generator/channel/facebook':null" [ngClass]="{'disapleSide':fixed.facebookCookies ==null}"><img src="images/generator-icon/code-editor.png"
                 alt="AI Generator"><span>Facebook</span></a></li>
             </ul>
           </nav>
@@ -20,63 +20,13 @@
 
           <nav class="mainmenu-nav">
             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-              <li class="has-submenu"><a class="collapse-btn collapsed" data-bs-toggle="collapse"
-                  href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i
-                    class="fa-sharp fa-solid fa-circle-plus"></i><span>Setting</span></a>
-                <div class="collapse" id="collapseExample">
-                  <ul class="submenu rbt-default-sidebar-list">
-                    <li>
-                      <a href="profile-details.html">
-                        <i class="fa-sharp fa-regular fa-user"></i>
-                        <span>Profile Details</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="notification.html">
-                        <i class="fa-sharp fa-regular fa-shopping-bag"></i>
-                        <span>Notification</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="chat-export.html">
-                        <i class="fa-sharp fa-regular fa-users"></i>
-                        <span>Chat Export</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="appearance.html">
-                        <i class="fa-sharp fa-regular fa-home"></i>
-                        <span>Apperance</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="plans-billing.html">
-                        <i class="fa-sharp fa-regular fa-briefcase"></i>
-                        <span>Plans and Billing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="sessions.html">
-                        <i class="fa-sharp fa-regular fa-users"></i>
-                        <span>Sessions</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="application.html">
-                        <i class="fa-sharp fa-regular fa-list"></i>
-                        <span>Application</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
               <li><a href="#"><i class="fa-sharp fa-regular fa-award"></i><span>Help & FAQ</span></a></li>
             </ul>
             <div class="rbt-sm-separator"></div>
             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-              <li><a href="release-notes.html"><i class="fa-sharp fa-regular fa-bell"></i><span>Release
+              <li><a><i class="fa-sharp fa-regular fa-bell"></i><span>Release
                     notes</span></a></li>
-              <li><a href="terms-policy.html"><i class="fa-sharp fa-regular fa-briefcase"></i><span>Terms
+              <li><a><i class="fa-sharp fa-regular fa-briefcase"></i><span>Terms
                     & Policy</span></a></li>
             </ul>
           </nav>

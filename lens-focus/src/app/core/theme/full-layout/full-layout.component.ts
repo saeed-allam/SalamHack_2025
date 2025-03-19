@@ -20,6 +20,6 @@ ngOnInit() {
           this.fixed.userProfile = res;
       }
   });
- console.log(this.cookieSer.get(CookieEnum.youtubeToken));
+ this.fixed.youtubeCookies = this.cookieSer.get(CookieEnum.youtubeToken);
 }
 }

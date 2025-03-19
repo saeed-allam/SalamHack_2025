@@ -13,19 +13,32 @@ export class GeneratorService {
 
   youtubeAuth() {
     this.http
-      .get<{ authUrl: string }>('/api/auth/googleLogin')
+      .get<{ authUrl: string }>('/api/auth/googleLogin', {
+        headers: {
+          Authorization: `Bearer ${this.cookieSer.get(
+            CookieEnum.LensFocusToken
+          )}`,
+        },
+      })
       .subscribe((res) => {
         window.location.href = String(res);
       });
   }
 
   getContent(): Observable<any> {
-    return this.http.get('/api/content/fetchContent',
-      {headers:{ Authorization: `Bearer ${this.cookieSer.get(CookieEnum.LensFocusToken)}`,
-      Cookies: `${this.cookieSer.get(CookieEnum.youtubeToken)}`} ,withCredentials: true});
+    return this.http.get('/api/content/fetchContent', {
+      headers: {
+        Authorization: `Bearer ${this.cookieSer.get(
+          CookieEnum.LensFocusToken
+        )}`,
+        googletoken: `${this.cookieSer.get(CookieEnum.youtubeToken)}`,
+      },
+    });
   }
-  // "1%2F%2F09LEklLB_VWzhCgYIARAAGAkSNwF-L9Ir7evLyEAbitUT0Cjuj_g8xyECi76eNdheQOqXt4ocJQ5uKx_xRF3g_82hToseRD1To8c"
-  removeYoutubeConnection(){
+  removeYoutubeConnection() {
     this.cookieSer.delete('refresh_token');
+  }
+  getSummery(contentId): Observable<any> {
+    return this.http.post('/api/summery/' + contentId,contentId);
   }
 }

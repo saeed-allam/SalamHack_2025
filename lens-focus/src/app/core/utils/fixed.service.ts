@@ -10,6 +10,8 @@ export class FixedService {
   public sysConfig = new SystemConfigModel();
   public tokenRequestSent = false;
   public youtubeCookies: string = null;
+  public amazoneCookies: string = null;
+  public facebookCookies: string = null;
   public sidebar: Boolean = false;
   public activeMode: 'dark' | 'light' = 'dark';
 

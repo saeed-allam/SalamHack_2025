@@ -56,11 +56,10 @@ export class RegisterComponent {
     delete payload.confirmPW;
     this.accountService.registerUser(payload).subscribe({
       next: (response) => {
-        this.router.navigate(['/generatooe/generator']);
-        return this.accountService.saveToken(response);
+         this.accountService.saveToken(response);
+       return this.router.navigate(['/generatooe/generator']);
       },
       error: () => {
-        // this.loading = false;
       },
     });
   }

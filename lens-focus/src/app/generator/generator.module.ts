@@ -29,6 +29,7 @@ import { AccountService } from '../account/account.service';
         children: [
           { path: '', redirectTo: 'home', pathMatch: 'full' },
           { path: 'home', component: HomeComponent },
+          { path: 'home/:token', component: HomeComponent },
           { path: 'channel/:type', component: ChannelComponent },
           { path: 'summarize/:id', component: SummarizePageComponent },
         ],

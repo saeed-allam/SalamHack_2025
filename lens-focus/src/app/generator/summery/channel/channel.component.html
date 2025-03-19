@@ -1,221 +1,50 @@
-    <!-- Start Breadcrumb Area  -->
-    <div class="main-content">
-      <!-- Start Breadcarumb area  -->
-      <div class="breadcrumb-area breadcarumb-style-1 pt--180 pb--100">
-          <div class="container">
-              <div class="row">
-                  <div class="col-lg-12">
-                      <div class="breadcrumb-inner text-center">
-                          <h3 class="title h3">Youtube Videos</h3>
-                      </div>
-                  </div>
+<!-- Start Breadcrumb Area  -->
+<div class="main-content">
+  <!-- Start Breadcarumb area  -->
+  <div class="breadcrumb-area breadcarumb-style-1 pt--180 pb--100">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb-inner text-center">
+            <h3 class="title h3">{{ChannelType}} Videos</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rainbow-blog-area rainbow-section-gap bg-color-1 ">
+  <div class="container">
+    <div class="row row--30">
+      <div class="col-lg-12">
+        <div class="row row--15">
+          @for (item of youtubeRes; track $index) {
+          <div class="col-lg-3 col-md-4 col-12 mt--30">
+            <div class="rainbow-card undefined">
+              <div class="inner">
+                <div class="thumbnail">
+                  <a class="image" [routerLink]="'/generator/summarize/'+item._id"><img [src]="item.image"
+                      alt="Blog Image">
+                  </a>
+                </div>
+                <div class="content">
+                  <ul class="rainbow-meta-list">
+                    <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i>{{item.description|date: 'dd MMM yyyy'}}</li>
+                    <li class="separator"></li>
+                    <li class="catagory-meta"><a [routerLink]="'/generator/summarize/'+item._id">Technology</a></li>
+                  </ul>
+                  <h4 class="title"><a [routerLink]="'/generator/summarize/'+item._id">{{item.title}}
+                    </a>
+                  </h4>
+                  <p class="description"*ngIf="item.description">{{item.description}} </p>
+                  <a class="btn-read-more border-transparent" [routerLink]="'/generator/summarize/'+item._id"><span>summarize <i
+                        class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
+                </div>
               </div>
-          </div>
+            </div>
+          </div>}
+        </div>
       </div>
-      <!-- End Breadcarumb area  -->
+    </div>
   </div>
-  <!-- Start Blog Area  -->
-  <div class="rainbow-blog-area rainbow-section-gap bg-color-1 ">
-      <div class="container">
-          <div class="row row--30">
-                      <div class="col-lg-12">
-                          <div class="row row--15">
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-01.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-02.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-03.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-04.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <p class="description">Implement user authentication to provide personalized experiences </p>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-05.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <p class="description">Implement user authentication to provide personalized experiences </p>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-06.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <p class="description">Implement user authentication to provide personalized experiences </p>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-07.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <p class="description">Implement user authentication to provide personalized experiences </p>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-3 col-md-4 col-12 mt--30">
-                                  <div class="rainbow-card undefined">
-                                      <div class="inner">
-                                          <div class="thumbnail">
-                                              <a class="image" routerLink="/generator/summarize/56"><img src="images/blog/blog-08.png" alt="Blog Image">
-                                              </a>
-                                          </div>
-                                          <div class="content">
-                                              <ul class="rainbow-meta-list">
-                                                  <li><i class="fa-sharp fa-regular fa-calendar-days icon-left"></i> 10 Dec 2023</li>
-                                                  <li class="separator"></li>
-                                                  <li class="catagory-meta"><a routerLink="/generator/summarize/56">Technology</a></li>
-                                              </ul>
-                                              <h4 class="title"><a routerLink="/generator/summarize/56">Best Corporate
-                                                      Tips
-                                                      You Will Read This Year.
-                                                  </a>
-                                              </h4>
-                                              <p class="description">Implement user authentication to provide personalized experiences </p>
-                                              <a class="btn-read-more border-transparent" routerLink="/generator/summarize/56"><span>summarize <i class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-12 text-center">
-                          <div class="rainbow-load-more text-center mt--60"><button class="btn btn-default btn-icon"><span>View More Post<span class="icon">
-                                      <i class="feather-loader"></i>
-                                  </span></span></button></div>
-                      </div>
-          </div>
-      </div>
-  </div>
+</div>
