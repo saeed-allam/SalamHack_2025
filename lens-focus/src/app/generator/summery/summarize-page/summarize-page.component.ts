@@ -20,6 +20,8 @@ export class SummarizePageComponent implements OnInit {
   showChatBody: boolean;
   isSmallScreen: boolean = window.innerWidth < 768;
   role: 'user' | 'model';
+  loading: boolean = false;
+  loadingSamary: boolean = false;
 
   constructor(
     public fixed: FixedService,
@@ -32,13 +34,17 @@ export class SummarizePageComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log(window.innerWidth)
+    console.log(window.innerWidth);
     this.isSmallScreen = window.innerWidth < 768;
-    this.isSmallScreen ? this.showChatBody = false : this.showChatBody = true;
+    this.isSmallScreen
+      ? (this.showChatBody = false)
+      : (this.showChatBody = true);
   }
 
   ngOnInit() {
-    this.isSmallScreen ? this.showChatBody = false : this.showChatBody = true;
+    this.isSmallScreen
+      ? (this.showChatBody = false)
+      : (this.showChatBody = true);
     console.log(this.isSmallScreen);
     console.log(this.showChatBody);
 
@@ -52,19 +58,20 @@ export class SummarizePageComponent implements OnInit {
   }
 
   getSummariez(id: string) {
+    this.loadingSamary = true;
     this.generatorSer.getSummery(id).subscribe({
       next: (res) => {
         this.summary = res
           .replace(/## (.*?)\n\n/g, '<h2 class="title">$1</h2>')
           .replace(/\* \*\*(.*?)\*\*/g, '<div class="tagcloud"><a>$1</a></div>')
           .replace(/\*\*(.*?)\*\*\n\n/g, '<h6>$1</h6>')
-          .replace(/\*\*(.*?)\*\*/g, '<h6>$1</h6>') // Convert **bold** to <b>bold</b>
-          .replace(/\n/g, '<br>') // Convert new lines to <br> for HTML display
-          // .replace(/\* (.*?)\n/g, '<li>$1</li>') // Convert * bullet points to <li>
-          // Convert ## headings to <h2>
-          .replace(/### (.*?)\n/g, '<h3>$1</h3>'); // Convert ### subheadings to <h3>;
+          .replace(/\*\*(.*?)\*\*/g, '<h6>$1</h6>')
+          .replace(/\n/g, '<br>')
+          .replace(/### (.*?)\n/g, '<h3>$1</h3>');
+        this.loadingSamary = false;
       },
       error: (err) => {
+        this.loadingSamary = false;
         if (
           err.status == 401 &&
           err.error['error'] == 'Refresh token expired'
@@ -102,11 +109,12 @@ export class SummarizePageComponent implements OnInit {
 
   sendMessage() {
     if (this.messageText.trim()) {
+      this.chatMassage.push({ role: 'user', text: this.messageText });
+      this.loading = true;
       this.generatorSer
         .sendSummeryChat(this.contentId, this.messageText)
         .subscribe({
           next: (res) => {
-            this.chatMassage.push({ role: 'user', text: this.messageText });
             this.chatMassage.push({
               role: 'model',
               text: res.answer
@@ -117,9 +125,12 @@ export class SummarizePageComponent implements OnInit {
                 .replace(/<\/li><br>/g, '</li></ul>') // Close list when a new line appears
                 .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'), // Bold text
             });
+            this.loading = false;
             this.messageText = null;
           },
-          error: (err) => {},
+          error: (err) => {
+            this.loading = false;
+          },
         });
     }
   }

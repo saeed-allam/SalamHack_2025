@@ -1,32 +1,29 @@
 <div class="row d-flex">
   <div class="col-lg-6 col-md-6 col-sm-12 scroll-content">
-    <div class="rainbow-blog-section rainbow-section-gap-big bg-color-1 ">
+    <div class="rainbow-blog-section rainbow-section-gap-big bg-color-1">
       <div class="container">
         <div class="rainbow-blog-details-area">
-
           <div class="blog-details-content pt--40">
             <div class="container">
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="content"[innerHTML]="summary">
-
+                  <div
+                    class="chat-section generate-section"
+                    *ngIf="loadingSamary == true"
+                  >
+                    <div class="author">
+                      <img
+                        src="images/icons/loader-one.gif"
+                        alt="Loader Images"
+                      />
+                    </div>
+                    <div class="chat-content">
+                      <h6 class="title color-text-off mb--0">
+                        Generating answers for you…
+                      </h6>
+                    </div>
                   </div>
-                  <!-- <div class="content">
-                          <h2 class="title">
-                              10 ways to supercharge your startup with AI Integration
-                          </h2>
-
-                          <p>Integrating artificial intelligence (AI) into your startup can indeed unlock exponential growth by enhancing efficiency, improving decision-making, and providing innovative solutions. Here are 10 ways to supercharge your startup with AI integration:</p>
-
-                          <h6>1.Automated Customer Support:</h6>
-                          <p>Implement AI-powered chatbots and virtual assistants to provide instant and personalized customer support. This not only improves customer satisfaction but also frees up human resources for more complex tasks.</p>
-
-                          <h6>2.Data-driven Decision Making:</h6>
-                          <p>Implement AI-powered chatbots and virtual assistants to provide instant and personalized customer support. This not only improves customer satisfaction but also frees up human resources for more complex tasks.</p>
-
-                          <h6>3.AI-driven Innovation:</h6>
-                          <p>Encourage a culture of innovation by using AI to generate insights and ideas. AI can assist in identifying market gaps, predicting industry trends, and proposing innovative solutions to common challenges.</p>
-                      </div> -->
+                  <div class="content" [innerHTML]="summary"></div>
                 </div>
               </div>
             </div>
@@ -35,91 +32,165 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-6 col-md-6 col-sm-12 scroll-content chat-bot-aria" [ngClass]="{'hide-chat':!showChatBody}">
-    <div class="rbt-main-content pe-3" [ngClass]="{'hide-chat':!showChatBody}">
+  <div
+    class="col-lg-6 col-md-6 col-sm-12 scroll-content chat-bot-aria"
+    [ngClass]="{ 'hide-chat': !showChatBody }"
+  >
+    <div
+      class="rbt-main-content pe-3"
+      [ngClass]="{ 'hide-chat': !showChatBody }"
+    >
       <div class="rbt-daynamic-page-content">
         <div class="rbt-dashboard-content">
-          <div class="content-page"[ngClass]="{'hide-chat':!showChatBody}">
-
+          <div class="content-page" [ngClass]="{ 'hide-chat': !showChatBody }">
             <div class="chat-box-section">
               <div class="chat-top-bar" (click)="toggleChat()">
                 <div class="section-title">
                   <div class="icon">
-                    <img src="images/icons/document-file.png" alt="">
+                    <img src="images/icons/document-file.png" alt="" />
                   </div>
                   <h6 class="title">Website roadmap title write me</h6>
                 </div>
                 <div class="dropdown history-box-dropdown">
-                  <button type="button" class="more-info-icon dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                  <button
+                    type="button"
+                    class="more-info-icon dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
                     <i class="fa-regular fa-ellipsis"></i>
                   </button>
                   <ul class="dropdown-menu style-one">
-                    <li><a class="dropdown-item" ><i class="fa-sharp fa-solid fa-arrows-rotate"></i>
-                        Regenerate</a></li>
-                    <li><a class="dropdown-item" ><i class="fa-sharp fa-solid fa-tag"></i> Pin Chat</a></li>
-                    <li><a class="dropdown-item" ><i class="fa-solid fa-file-lines"></i> Rename</a></li>
-                    <li><a class="dropdown-item" ><i class="fa-solid fa-share-nodes"></i> Share</a></li>
-                    <li><a class="dropdown-item delete-item" ><i class="fa-solid fa-trash-can"></i> Delete
-                        Chat</a></li>
+                    <li>
+                      <a class="dropdown-item"
+                        ><i class="fa-sharp fa-solid fa-arrows-rotate"></i>
+                        Regenerate</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item"
+                        ><i class="fa-sharp fa-solid fa-tag"></i> Pin Chat</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item"
+                        ><i class="fa-solid fa-file-lines"></i> Rename</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item"
+                        ><i class="fa-solid fa-share-nodes"></i> Share</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item delete-item"
+                        ><i class="fa-solid fa-trash-can"></i> Delete Chat</a
+                      >
+                    </li>
                   </ul>
                 </div>
               </div>
-              <div class="body chat-box-list" id="chatContainer" *ngIf="showChatBody">
+              <div
+                class="body chat-box-list"
+                id="chatContainer"
+                *ngIf="showChatBody"
+              >
                 @for (item of chatMassage; track $index) {
                 <div class="chat-box author-speech" *ngIf="item.role == 'user'">
                   <div class="inner">
                     <div class="chat-section">
                       <div class="author">
-                        <img class="w-100" src="images/team/team-01sm.jpg" alt="Author">
+                        <img
+                          class="w-100"
+                          src="images/team/team-01sm.jpg"
+                          alt="Author"
+                        />
                       </div>
                       <div class="chat-content">
-                        <h6 class="meta-name title">{{fixed.userProfile.name}}</h6>
-                        <p class="editable">{{item.text}}</p>
+                        <h6 class="meta-name title">
+                          {{ fixed.userProfile.name }}
+                        </h6>
+                        <p class="editable">{{ item.text }}</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="chat-box ai-speech"*ngIf="item.role == 'model'">
+                <div class="chat-box ai-speech" *ngIf="item.role == 'model'">
                   <div class="inner">
                     <div class="chat-section">
                       <div class="author">
-                        <img class="w-100" src="images/team/avater.png" alt="AiWave">
+                        <img
+                          class="w-100"
+                          src="images/team/avater.png"
+                          alt="AiWave"
+                        />
                       </div>
                       <div class="chat-content">
-                        <h6 class="title">LensFocus<span class="rainbow-badge-card"><i
-                              class="fa-sharp fa-regular fa-check"></i> Bot</span></h6>
-                        <div  class="mb--20" [innerHTML]="item.text"> </div >
+                        <h6 class="title">
+                          LensFocus<span class="rainbow-badge-card"
+                            ><i class="fa-sharp fa-regular fa-check"></i>
+                            Bot</span
+                          >
+                        </h6>
+                        <div class="mb--20" [innerHTML]="item.text"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-}
+                }
+                <div class="chat-box ai-speech" *ngIf="loading">
+                  <div class="inner">
+                    <div class="chat-section generate-section">
+                      <div class="author">
+                        <img
+                          src="images/icons/loader-one.gif"
+                          alt="Loader Images"
+                        />
+                      </div>
+                      <div class="chat-content">
+                        <h6 class="title color-text-off mb--0">
+                          Generating answers for you…
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="rbt-static-bar" *ngIf="showChatBody">
                 <form class="new-chat-form border-gradient">
-                  <textarea id="txtarea" rows="1" placeholder="Send a message..." [(ngModel)]="messageText"
-                    [ngModelOptions]="{standalone: true}"></textarea>
+                  <textarea
+                    id="txtarea"
+                    rows="1"
+                    placeholder="Send a message..."
+                    [(ngModel)]="messageText"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></textarea>
                   <div class="left-icons">
                     <div title="AiWave" class="form-icon icon-gpt">
                       <i class="fa-sharp fa-regular fa-aperture"></i>
                     </div>
                   </div>
                   <div class="right-icons">
-                    <button class="form-icon icon-send" id="sendButton" (click)="sendMessage()">
+                    <button
+                      class="form-icon icon-send"
+                      id="sendButton"
+                      (click)="sendMessage()"
+                    >
                       <i class="fa-sharp fa-solid fa-paper-plane-top"></i>
                     </button>
                   </div>
                 </form>
-                <p class="b3 small-text">AiWave can make mistakes. Consider checking important information.</p>
+                <p class="b3 small-text">
+                  AiWave can make mistakes. Consider checking important
+                  information.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
