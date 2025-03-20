@@ -1,12 +1,13 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import contentListModel from "../models/contentModel.js";
 import summeryModel from "../models/summeryModel.js";
-const genAI = new GoogleGenerativeAI(process.env.Gemini);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 export default async function createSummery(req, res) {
   const { contentId } = req.params;
 
+  console.log("contentId:", contentId);
   const userId = req.user.id;
+
+  console.log("userId: ", userId);
 
   //check if the video exists in the db
   const contentFound = await checkContent(userId, contentId, res);
@@ -23,8 +24,13 @@ export default async function createSummery(req, res) {
     return res.json(summery.summeryText);
   }
 
+  console.log("summery not found... creating new one");
   try {
+    console.log("Fetching comments");
+
     const commentsData = await fetchComments(contentId, req.user.accessToken);
+
+    console.log("Comments data: ", commentsData);
 
     if (
       !commentsData ||
@@ -43,7 +49,8 @@ export default async function createSummery(req, res) {
     }
     const commentsText = commentsData.map(formatComment).join("\n\n");
 
-    const prompt = `
+    console.log("Comments text: ", commentsText);
+    const promptText = `
 Analyze the following cross-platform reviews and comments with a focus on delivering actionable insights, quantitative analysis, and strategic recommendations. Your analysis should be at least 500 words and include specific numerical data and percentages where applicable.
 
 **Objective:** To provide a comprehensive understanding of user sentiment, identify key trends, and generate data-driven strategies for product improvement, content optimization, and ad performance enhancement.
@@ -94,33 +101,40 @@ This prompt is designed to elicit a comprehensive and data-driven analysis of cr
 
  \n\nComments:\n${commentsText}`;
 
-    const result = await model.generateContent(prompt);
-    // Verify the response
-    if (
-      !result ||
-      !result.response ||
-      !result.response.candidates ||
-      result.response.candidates.length === 0 ||
-      !result.response.candidates[0].content ||
-      !result.response.candidates[0].content.parts ||
-      result.response.candidates[0].content.parts.length === 0 ||
-      !result.response.candidates[0].content.parts[0].text
-    ) {
-      return res.status(500).json({
-        message: "Failed to generate summary: Invalid Gemini response",
-      });
-    }
-    const responseText = result.response.candidates[0].content.parts[0].text;
+    console.log("before the model call....");
 
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.Gemini}`;
+    const data = {
+      contents: [
+        {
+          parts: [{ text: promptText }],
+        },
+      ],
+    };
+
+    const aiResponse = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const jdata = await aiResponse.json();
+    const aiMessage = jdata?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!aiMessage) {
+      return res
+        .status(500)
+        .json({ message: "Failed to get a response from AI" });
+    }
     const newSummery = new summeryModel({
       userId: userId,
       contentId: contentId,
-      summeryText: responseText,
+      summeryText: aiMessage,
       comments: commentsText,
     });
     await newSummery.save();
 
-    res.status(200).json(responseText);
+    res.status(200).json(aiMessage);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to generate summary" });
