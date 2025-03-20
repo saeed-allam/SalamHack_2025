@@ -127,6 +127,7 @@ Gemini ="wirte your secrets here"
 - In clients page press `Create cleint` and select `Web application`. name it anything. The `Authorized origins` must be `http://localhost:4200` and `Authorized redirect URIs` must be `http://localhost:3000/api/auth/googleCallback`. press save
 - In Data access Click `add or remove scope` and search for `youtube.readonly`. select it then press update.
   ![Google](./imgs/google.png)
+- you need to get a youtube api as well and add it to `YT_API_KEY`
 
 #### GOOGLE_CLIENT_ID
 
