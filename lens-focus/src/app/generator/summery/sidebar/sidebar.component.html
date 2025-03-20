@@ -5,13 +5,13 @@
         <div class="rbt-default-sidebar-wrapper">
           <nav class="mainmenu-nav">
             <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-              <li><a [routerLink]="fixed.youtubeCookies !=null? '/generator/channel/youtube':null" [ngClass]="{'disapleSide':fixed.youtubeCookies ==null}"><img src="images/generator-icon/text.png"
+              <li><a [routerLink]="!(fixed.youtubeCookies == null||fixed.youtubeCookies == '' )? '/generator/channel/youtube':null" [ngClass]="{'disapleSide':(fixed.youtubeCookies == null||fixed.youtubeCookies == '')}"><img src="images/generator-icon/text.png"
                 alt="AI Generator"><span>Youtube</span></a></li>
-          <li><a [routerLink]="fixed.amazoneCookies !=null? '/generator/channel/amazone':null" [ngClass]="{'disapleSide':fixed.amazoneCookies ==null}"><img src="images/generator-icon/photo.png"
+          <li><a [routerLink]="!(fixed.amazoneCookies == null||fixed.amazoneCookies == '' )? '/generator/channel/amazone':null" [ngClass]="{'disapleSide':(fixed.amazoneCookies == null||fixed.amazoneCookies == '' )}"><img src="images/generator-icon/photo.png"
                 alt="AI Generator"><span>Amazone</span>
               <div class="rainbow-badge-card badge-sm ml--10">Hot</div>
             </a></li>
-          <li><a [routerLink]="fixed.facebookCookies !=null? '/generator/channel/facebook':null" [ngClass]="{'disapleSide':fixed.facebookCookies ==null}"><img src="images/generator-icon/code-editor.png"
+          <li><a [routerLink]="!(fixed.facebookCookies == null||fixed.facebookCookies == '' )? '/generator/channel/facebook':null" [ngClass]="{'disapleSide':(fixed.facebookCookies == null||fixed.facebookCookies == '' )}"><img src="images/generator-icon/code-editor.png"
                 alt="AI Generator"><span>Facebook</span></a></li>
             </ul>
           </nav>

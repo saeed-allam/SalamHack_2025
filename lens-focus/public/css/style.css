@@ -17878,6 +17878,7 @@ iframe {
   flex-wrap: wrap;
   padding: 30px;
   padding-top: 22px;
+  flex-direction: column;
 }
 @media only screen and (max-width: 767px) {
   .rainbow-card .inner .content {
@@ -21029,7 +21030,7 @@ iframe {
 }
 @media only screen and (max-width: 767px) {
   .rbt-static-bar {
-    width: calc(100% - 60px);
+    width: 38.5%;
   }
 }
 @media only screen and (max-width: 479px) {
@@ -22363,6 +22364,7 @@ iframe {
 .list-card-grp .list-card.style-two .inner:hover .btn-default {
   opacity: 1;
   visibility: visible;
+  z-index: 100;
 }
 .list-card-grp .list-card.style-two .btn-default {
   opacity: 0;

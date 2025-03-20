@@ -18,15 +18,11 @@ export class HomeComponent implements OnInit{
     public cookieSer: CookieService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {
-    console.log(this.fixed.youtubeCookies);
-    console.log(this.cookieSer.get(CookieEnum.youtubeToken));
+  ) {}
 
-  }
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       if (params['token'] != null) {
-        console.log(params['token'] );
             this.cookieSer.set(CookieEnum.youtubeToken,params['token'],1,'/');
             this.fixed.youtubeCookies = params['token'];
         }

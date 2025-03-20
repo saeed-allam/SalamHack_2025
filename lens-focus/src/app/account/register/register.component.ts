@@ -51,13 +51,12 @@ export class RegisterComponent {
     if (this.RegisterForm.invalid) {
       return;
     }
-    let payload = { ...this.RegisterForm.value }; // Clone the object
+    let payload = { ...this.RegisterForm.value };
 
     delete payload.confirmPW;
     this.accountService.registerUser(payload).subscribe({
       next: (response) => {
-         this.accountService.saveToken(response);
-       return this.router.navigate(['/generatooe/generator']);
+       return this.router.navigate(['/account/login']);
       },
       error: () => {
       },
@@ -66,7 +65,7 @@ export class RegisterComponent {
 
   loginBefore() {
     if (this.accountService.isAuthenticated()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/generator/home']);
     }
   }
 

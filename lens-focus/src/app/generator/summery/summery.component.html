@@ -38,11 +38,14 @@
                 </div>
               </div>
               <!-- Start Mobile-Menu-Bar -->
-
+    <div class="header-btn" *ngIf="!fixed.userProfile.email">
+                  <a class="rainbow-gradient-btn" routerLink="/account/login"><span>login</span></a>
+              </div>
               <!-- Start Admin meta Group -->
-              <div class="rbt-admin-panel account-access rbt-user-wrapper right-align-dropdown">
+              <div *ngIf="fixed.userProfile.email" class="rbt-admin-panel account-access rbt-user-wrapper right-align-dropdown" >
+
                 <div class="rbt-admin-card grid-style">
-                  <a class="d-flex align-items-center" href="#">
+                  <a class="d-flex align-items-center" >
                     <div class="inner d-flex align-items-center">
                       <div class="img-box">
                         <img src="images/team/team-01sm.jpg" alt="Admin">

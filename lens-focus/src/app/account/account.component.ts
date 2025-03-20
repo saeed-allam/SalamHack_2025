@@ -20,18 +20,7 @@ constructor(public fixed:FixedService,public global:GlobalService, private accou
   loginGoogle() {
     this.accountSer.loginWithGoogle()
     .then(user => {
-      // if (user) {
         this.router.navigate(['/generator/home']);
-        // console.log('User logged in:', user);
-        // console.log(user.multiFactor['user'].accessToken);
-        // console.log(user.multiFactor['user'].email);
-        // console.log(user.multiFactor['user'].displayName);
-        // console.log(user.multiFactor['user'].photoURL);
-        // console.log(user.multiFactor['user'].stsTokenManager);
-        // console.log(user.multiFactor['user'].stsTokenManager['accessToken']);
-        // console.log(user.multiFactor['user'].stsTokenManager['refreshToken']);
-
-      // }
     });
   }
 }

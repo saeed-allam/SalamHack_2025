@@ -49,7 +49,7 @@ export class LoginComponent {
       next: response => {
         this.loading = false;
         if (response.menu == 0) return (this.showMassage = true);
-       this.router.navigate(['/']);
+       this.router.navigate(['/generator/home']);
        return this.accountService.saveToken(response);
       },
       error: () => {

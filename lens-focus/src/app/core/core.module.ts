@@ -9,11 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MobileMenuComponent } from './component/mobile-menu/mobile-menu.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MyHttpInterceptor } from './utils/my-http-interceptor.service';
+import { TruncateWordsPipe } from './pipe/truncate-words.pipe';
 
 const fixed = new FixedService();
 
 @NgModule({
-  declarations: [SimpleLayoutComponent, FullLayoutComponent, MobileMenuComponent],
+  declarations: [SimpleLayoutComponent, FullLayoutComponent, MobileMenuComponent, TruncateWordsPipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -26,7 +27,8 @@ const fixed = new FixedService();
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    MobileMenuComponent
+    MobileMenuComponent,
+    TruncateWordsPipe
   ],
   providers: [
     { provide: FixedService, useValue: fixed },

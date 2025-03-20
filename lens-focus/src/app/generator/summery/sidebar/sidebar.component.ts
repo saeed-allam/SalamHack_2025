@@ -12,12 +12,4 @@ import { GeneratorService } from '../../generator.service';
 export class SidebarComponent {
   constructor(public fixed:FixedService, public global:GlobalService,public generatorSer:GeneratorService){}
 
-  youtubeContent(){
-    this.generatorSer.getContent().subscribe({
-      next: (res)=>{
-        console.log(res);
-
-      }
-    })
-  }
 }

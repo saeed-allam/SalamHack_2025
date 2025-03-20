@@ -39,6 +39,33 @@ export class GeneratorService {
     this.cookieSer.delete('refresh_token');
   }
   getSummery(contentId): Observable<any> {
-    return this.http.post('/api/summery/' + contentId,contentId);
+    return this.http.get('/api/summery/' + contentId, {
+      headers: {
+        Authorization: `Bearer ${this.cookieSer.get(
+          CookieEnum.LensFocusToken
+        )}`,
+        googletoken: `${this.cookieSer.get(CookieEnum.youtubeToken)}`,
+      },
+    });
+  }
+
+  getSummeryChat(contentId): Observable<any> {
+    return this.http.get('/api/chat/' + contentId, {
+      headers: {
+        Authorization: `Bearer ${this.cookieSer.get(
+          CookieEnum.LensFocusToken
+        )}`,
+      },
+    });
+  }
+
+  sendSummeryChat(contentId,massage): Observable<any> {
+    return this.http.post('/api/chat/' + contentId,{chat:massage}, {
+      headers: {
+        Authorization: `Bearer ${this.cookieSer.get(
+          CookieEnum.LensFocusToken
+        )}`,
+      },
+    });
   }
 }

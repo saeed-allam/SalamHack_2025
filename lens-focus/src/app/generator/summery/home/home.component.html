@@ -22,8 +22,8 @@
                               <p class="desc">You accessed the system from two distinct devices utilizing separate web browsers...</p>
                           </div>
                           <div class="list-card style-two">
-                              <div class="inner" [routerLink]="fixed.youtubeCookies != null?'/generator/channel/youtube':null">
-                                  <div class="left-content align-items-center">
+                              <div class="inner">
+                                  <div class="left-content align-items-center" [routerLink]="fixed.youtubeCookies != null?'/generator/channel/youtube':null">
                                       <div class="img-section">
                                           <img src="images/icons/youtube.png" alt="Browser Icon">
                                       </div>
@@ -32,19 +32,23 @@
                                       </div>
                                   </div>
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round" (click)="youtubeConnection()" *ngIf='fixed.youtubeCookies == null ||fixed.youtubeCookies == ""'>
+                                      <button class="btn-default btn-border round" (click)="youtubeConnection()" *ngIf='(fixed.youtubeCookies == null ||fixed.youtubeCookies == "")&&fixed.userProfile.email'>
                                           <i class="fa-sharp fa-solid fa-plus"></i> Connect
                                       </button>
 
-                                      <button class="btn-default btn-border round delete" (click)="youtubeDesConnection()" *ngIf="fixed.youtubeCookies">
+                                      <button class="btn-default btn-border round delete" (click)="youtubeDesConnection()" *ngIf='!(fixed.youtubeCookies == null||fixed.youtubeCookies == "") '>
                                           <i class="fa-solid fa-trash-can"></i> Remove
+                                      </button>
+
+                                      <button class="btn-default btn-border round " routerLink="/account/login" *ngIf='!fixed.userProfile.email'>
+                                        <i class="fa-solid fa-circle-exclamation"></i> Login
                                       </button>
                                   </div>
                               </div>
                           </div>
                           <div class="list-card style-two">
-                              <div class="inner"[routerLink]="fixed.amazoneCookies != null?'/generator/channel/amazone':null">
-                                  <div class="left-content align-items-center">
+                              <div class="inner">
+                                  <div class="left-content align-items-center"[routerLink]="fixed.amazoneCookies != null?'/generator/channel/amazone':null">
                                       <div class="img-section">
                                           <img src="images/icons/amazon-logo.png" alt="Browser Icon">
                                       </div>
@@ -53,8 +57,8 @@
                                       </div>
                                   </div>
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round">
-                                          <i class="fa-sharp fa-solid fa-plus"></i> Connect
+                                      <button class="btn-default btn-border round not-avilable">
+                                        <i class="fa-solid fa-circle-notch"></i> Soon
                                       </button>
                                   </div>
                               </div>
@@ -70,9 +74,9 @@
                                       </div>
                                   </div>
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round">
-                                          <i class="fa-sharp fa-solid fa-plus"></i> Connect
-                                      </button>
+                                    <button class="btn-default btn-border round not-avilable">
+                                      <i class="fa-solid fa-circle-notch"></i> Soon
+                                    </button>
                                   </div>
                               </div>
                           </div>
@@ -87,9 +91,9 @@
                                       </div>
                                   </div>
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round">
-                                          <i class="fa-sharp fa-solid fa-plus"></i> Connect
-                                      </button>
+                                    <button class="btn-default btn-border round not-avilable">
+                                      <i class="fa-solid fa-circle-notch"></i> Soon
+                                    </button>
                                   </div>
                               </div>
                           </div>
@@ -104,9 +108,9 @@
                                       </div>
                                   </div>
                                   <div class="right-content">
-                                      <button class="btn-default btn-border round">
-                                          <i class="fa-sharp fa-solid fa-plus"></i> Connect
-                                      </button>
+                                    <button class="btn-default btn-border round not-avilable">
+                                      <i class="fa-solid fa-circle-notch"></i> Soon
+                                    </button>
                                   </div>
                               </div>
                           </div>
