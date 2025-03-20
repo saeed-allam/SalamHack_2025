@@ -1,5 +1,5 @@
 <div class="row d-flex">
-  <div class="col-6 scroll-content">
+  <div class="col-lg-6 col-md-6 col-sm-12 scroll-content">
     <div class="rainbow-blog-section rainbow-section-gap-big bg-color-1 ">
       <div class="container">
         <div class="rainbow-blog-details-area">
@@ -35,14 +35,14 @@
       </div>
     </div>
   </div>
-  <div class="col-6 scroll-content">
-    <div class="rbt-main-content pe-3">
+  <div class="col-lg-6 col-md-6 col-sm-12 scroll-content chat-bot-aria" [ngClass]="{'hide-chat':!showChatBody}">
+    <div class="rbt-main-content pe-3" [ngClass]="{'hide-chat':!showChatBody}">
       <div class="rbt-daynamic-page-content">
         <div class="rbt-dashboard-content">
-          <div class="content-page">
+          <div class="content-page"[ngClass]="{'hide-chat':!showChatBody}">
 
             <div class="chat-box-section">
-              <div class="chat-top-bar">
+              <div class="chat-top-bar" (click)="toggleChat()">
                 <div class="section-title">
                   <div class="icon">
                     <img src="images/icons/document-file.png" alt="">
@@ -65,7 +65,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="chat-box-list" id="chatContainer">
+              <div class="body chat-box-list" id="chatContainer" *ngIf="showChatBody">
                 @for (item of chatMassage; track $index) {
                 <div class="chat-box author-speech" *ngIf="item.role == 'user'">
                   <div class="inner">
@@ -75,7 +75,7 @@
                       </div>
                       <div class="chat-content">
                         <h6 class="meta-name title">{{fixed.userProfile.name}}</h6>
-                        <p class="editable" contenteditable="true">{{item.text}}</p>
+                        <p class="editable">{{item.text}}</p>
                       </div>
                     </div>
                   </div>
@@ -98,7 +98,7 @@
 }
               </div>
 
-              <div class="rbt-static-bar">
+              <div class="rbt-static-bar" *ngIf="showChatBody">
                 <form class="new-chat-form border-gradient">
                   <textarea id="txtarea" rows="1" placeholder="Send a message..." [(ngModel)]="messageText"
                     [ngModelOptions]="{standalone: true}"></textarea>

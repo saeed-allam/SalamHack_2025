@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FixedService } from '../../../core/utils/fixed.service';
 import { GlobalService } from '../../../core/utils/global.service';
@@ -17,6 +17,8 @@ export class SummarizePageComponent implements OnInit {
   messageText: string;
   summary: any;
   chatMassage: any;
+  showChatBody: boolean;
+  isSmallScreen: boolean = window.innerWidth < 768;
   role: 'user' | 'model';
 
   constructor(
@@ -28,7 +30,18 @@ export class SummarizePageComponent implements OnInit {
     private cookieSer: CookieService
   ) {}
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    console.log(window.innerWidth)
+    this.isSmallScreen = window.innerWidth < 768;
+    this.isSmallScreen ? this.showChatBody = false : this.showChatBody = true;
+  }
+
   ngOnInit() {
+    this.isSmallScreen ? this.showChatBody = false : this.showChatBody = true;
+    console.log(this.isSmallScreen);
+    console.log(this.showChatBody);
+
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] != null) {
         this.contentId = params['id'];
@@ -58,9 +71,9 @@ export class SummarizePageComponent implements OnInit {
         ) {
           console.log(this.fixed.youtubeCookies);
           this.cookieSer.delete(CookieEnum.youtubeToken);
-          this.fixed.youtubeCookies==null;
+          this.fixed.youtubeCookies == null;
           console.log(this.fixed.youtubeCookies);
-          this.router.navigateByUrl('/generator/home')
+          this.router.navigateByUrl('/generator/home');
         }
       },
     });
@@ -95,7 +108,7 @@ export class SummarizePageComponent implements OnInit {
           next: (res) => {
             this.chatMassage.push({ role: 'user', text: this.messageText });
             this.chatMassage.push({
-              role: 'user',
+              role: 'model',
               text: res.answer
                 .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Convert **bold** to <b>bold</b>
                 .replace(/\n/g, '<br>') // Convert new lines to <br>
@@ -108,6 +121,12 @@ export class SummarizePageComponent implements OnInit {
           },
           error: (err) => {},
         });
+    }
+  }
+
+  toggleChat() {
+    if (this.isSmallScreen) {
+      this.showChatBody = !this.showChatBody;
     }
   }
 }

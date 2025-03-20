@@ -36,7 +36,7 @@
                   <h4 class="title"><a [routerLink]="'/generator/summarize/'+item.contentId">{{item.title}}
                     </a>
                   </h4>
-                  <p class="description"*ngIf="item.description">{{item.description| truncateWords:10}} </p>
+                  <p class="description"*ngIf="item.description">{{item.description| truncateWords: 3}} </p>
                   <a class="btn-read-more border-transparent" [routerLink]="'/generator/summarize/'+item.contentId"><span>summarize <i
                         class="fa-sharp fa-regular fa-arrow-right"></i></span></a>
                 </div>
