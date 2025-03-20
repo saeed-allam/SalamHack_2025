@@ -175,11 +175,11 @@ export async function googleCallback(req, res) {
       return res.status(400).json({ error: "User not found" });
     }
 
-    // res.status(200).json({
-    //   message: "Google login successful.",
-    //   access_token: access_token,
-    // });
-    res.redirect(`http://localhost:4200/generator/home/${access_token}`);
+    res.status(200).json({
+      message: "Google login successful.",
+      access_token: access_token,
+    });
+    // res.redirect(`http://localhost:4200/generator/home/${access_token}`);
   } catch (err) {
     console.error("Error logging in:", err);
     res.status(500).json({ error: "Error logging in using google" });
