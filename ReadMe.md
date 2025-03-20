@@ -36,6 +36,7 @@ MONGO_DB= "wirte your secrets here"
 GOOGLE_CLIENT_ID= "wirte your secrets here"
 GOOGLE_CLIENT_SECRET= "wirte your secrets here"
 REDIRECT_URI="http://localhost:3000/api/auth/googleCallback"
+YT_API_KEY = "wirte your secrets here"
 Gemini ="wirte your secrets here"
 ```
 
