@@ -125,7 +125,7 @@ Gemini ="wirte your secrets here"
 - In `Authorized domains` write: `localhost.com`
 - Go to audience page then under test user click `Add users` and add your own email. This email will be used to login to your app.
 - In clients page press `Create cleint` and select `Web application`. name it anything. The `Authorized origins` must be `http://localhost:4200` and `Authorized redirect URIs` must be `http://localhost:3000/api/auth/googleCallback`. press save
-- In Data access Click `add or remove scope` and search for `youtube.readonly`. select it then press update.
+- In Data access Click `add or remove scope` and search for `youtube.readonly` and `YOUTUBE_FORCE_SSL`. select it then press update.
   ![Google](./imgs/google.png)
 - you need to get a youtube api as well and add it to `YT_API_KEY`
 
